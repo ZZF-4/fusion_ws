@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/hawkbot/fusion_ws/devel/setup.sh
