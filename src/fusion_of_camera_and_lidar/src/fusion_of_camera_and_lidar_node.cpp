@@ -192,19 +192,7 @@ int main(int argc, char **argv)
 
     ros::init(argc, argv, "fusion_of_camera_and_lidar");
     ros::NodeHandle n;
-    // ros::NodeHandle priv_nh("~");
-
-    // if (priv_nh.hasParam("calib_file_path") && priv_nh.hasParam("file_name"))
-    // {
-    //     string path;
-    //     priv_nh.getParam("calib_file_path", path);
-    //     ROS_INFO("get path:%s", path);
-
-    //     return 0;
-    // }
-
-    // priv_nh.getParam("color_distance", color_dis); //获取参数
-    // ROS_INFO("color_dis-init=%0.6f", color_dis);
+    
     cv::namedWindow(origin_image);
     cv::namedWindow(fused_image);
     image_pub = n.advertise<sensor_msgs::Image>("fusion", 100);
