@@ -44,11 +44,7 @@ void lidarCallback(const sensor_msgs::PointCloud2ConstPtr &msg)
     pclviewer.showCloud(cloud); //用pcl显示点云
     return;
 }
-// void get_lidar(ros::NodeHandle &n)
-// {
-//     ros::Subscriber lidar_sub = n.subscribe("/rslidar_points", 10, lidarCallback);
-//     return;
-// }
+
 
 void cameraCallback(const sensor_msgs::ImageConstPtr &msg)
 {
@@ -60,12 +56,6 @@ void cameraCallback(const sensor_msgs::ImageConstPtr &msg)
     projection();
     return;
 }
-
-// void get_camera(ros::NodeHandle &n)
-// {
-//     ros::Subscriber camera_sub = n.subscribe("/camera/color/image_raw", 10, cameraCallback);
-//     return;
-// }
 
 void pre_process()
 {
@@ -119,17 +109,13 @@ void projection()
         point.z = cloud->points[i].z;
         points3d.push_back(point); //将点云插入到OpenCV的三维点数据中
     }
-
     vector<cv::Point2f> projectedPoints;
-
     //这里调用opencv将points3d点云通过外旋转矩阵rotate_mat、平移向量transform_vec、相机内参矩阵dist_coeff
     cv::projectPoints(points3d, rotate_mat, transform_vec, camera_mat, dist_coeff, projectedPoints);
-
     //   vector<pcl::PointXYZRGB>  rgb_cloud;
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr rgb_cloud(new pcl::PointCloud<pcl::PointXYZRGB>); //存点云的全局变量
     std::vector<cv::Scalar> dis_color;                                                       //用于存储点云的颜色信息
     dis_color.reserve(cloud->size() + 1);
-
     //   rgb_cloud.reserve(cloud->size()+1);
     for (int i = 0; i < projectedPoints.size(); i++)
     {
@@ -192,7 +178,19 @@ int main(int argc, char **argv)
 
     ros::init(argc, argv, "fusion_of_camera_and_lidar");
     ros::NodeHandle n;
-    
+    // ros::NodeHandle priv_nh("~");
+
+    // if (priv_nh.hasParam("calib_file_path") && priv_nh.hasParam("file_name"))
+    // {
+    //     string path;
+    //     priv_nh.getParam("calib_file_path", path);
+    //     ROS_INFO("get path:%s", path);
+
+    //     return 0;
+    // }
+
+    // priv_nh.getParam("color_distance", color_dis); //获取参数
+    // ROS_INFO("color_dis-init=%0.6f", color_dis);
     cv::namedWindow(origin_image);
     cv::namedWindow(fused_image);
     image_pub = n.advertise<sensor_msgs::Image>("fusion", 100);
