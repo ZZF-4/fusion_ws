@@ -44,7 +44,11 @@ void lidarCallback(const sensor_msgs::PointCloud2ConstPtr &msg)
     pclviewer.showCloud(cloud); //用pcl显示点云
     return;
 }
-
+// void get_lidar(ros::NodeHandle &n)
+// {
+//     ros::Subscriber lidar_sub = n.subscribe("/rslidar_points", 10, lidarCallback);
+//     return;
+// }
 
 void cameraCallback(const sensor_msgs::ImageConstPtr &msg)
 {
@@ -56,6 +60,11 @@ void cameraCallback(const sensor_msgs::ImageConstPtr &msg)
     projection();
     return;
 }
+// void get_camera(ros::NodeHandle &n)
+// {
+//     ros::Subscriber camera_sub = n.subscribe("/camera/color/image_raw", 10, cameraCallback);
+//     return;
+// }
 
 void pre_process()
 {
